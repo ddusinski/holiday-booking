@@ -1,0 +1,9 @@
+HTTP login/logout forms are enabled:
+first step:
+	curl -X GET -c cookies 'http://localhost:8080/users/get' -d 'username=admin&password=333' -c cookies.txt
+
+second step:
+	curl -i -b cookies.txt -X GET http://localhost:8080/users/get
+
+HTTP Basic is enabled:
+	curl -i --user admin:333 -X GET http://localhost:8080/users/get
