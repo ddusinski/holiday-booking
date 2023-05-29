@@ -1,6 +1,7 @@
 package com.dusinski.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -10,13 +11,16 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     @JsonIdentityReference
     private Owner owner;
+    @JsonProperty("title")
     private EventType eventType;
     private String description;
+    @JsonProperty("start")
     private LocalDate startDate;
+    @JsonProperty("end")
     private LocalDate endDate;
 
     public Event() {

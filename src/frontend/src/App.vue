@@ -1,15 +1,17 @@
 <template>
-  <UserList />
+  <!-- <OwnerList /> -->
   <EventList />
+  <FullCalendar />
 </template>
 
 <script>
-import UserList from './components/UserList.vue'
+import OwnerList from './components/OwnerList.vue'
 import EventList from './components/EventList.vue'
+import FullCalendar from './components/Calendar.vue'
 export default {
   name: 'App',
   components: {
-    UserList, EventList
+    OwnerList, EventList, FullCalendar
   }
 }
 </script>

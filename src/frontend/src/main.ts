@@ -4,8 +4,10 @@ import App from './App.vue'
 
 // import BootstrapVue from 'bootstrap-vue/dist/bootstrap-vue.esm';
 import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap"
+import VTooltip from 'v-tooltip'
 
-// Vue.use(BootstrapVue);
+// Vue.use(VTooltip);
 
-createApp(App).mount('#app')
+const app = createApp(App)
+app.use(VTooltip)
+app.mount('#app')

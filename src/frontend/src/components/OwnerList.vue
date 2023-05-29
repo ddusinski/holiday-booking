@@ -1,6 +1,6 @@
 <template>
   <h1>{{ helloMsg }}</h1>
-  <h2>User's list:</h2>
+  <h2>List of owners:</h2>
   <h2>{{ status }}</h2>
 
   <form @submit.prevent="postData" method="post">

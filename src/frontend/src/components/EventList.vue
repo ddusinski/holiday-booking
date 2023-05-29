@@ -1,37 +1,43 @@
 <template>
   <h1>{{ helloMsg }}</h1>
-  <h2>Event's list:</h2>
+  <h2>List of events:</h2>
   <h2>{{ status }}</h2>
 
   <form @submit.prevent="postData" method="post">
     <div class="mb-3 row">
-      <label for="userInput1" class="col-sm-2 col-form-label">User</label>
+      <label for="ownerInput" class="col-sm-2 col-form-label">User</label>
       <div class="col-sm-10">
-        <input type="text" id="userInput1" class="form-control" v-model="newEvent.user">
+        <select v-model="newEvent.user" class="form-select" id="ownerInput">
+          <option disabled value="">Select owner</option>
+          <option v-for="owner in owners" :value="owner">{{ owner.name }}</option>
+        </select>
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="userInput2" class="col-sm-2 col-form-label">Event Type</label>
+      <label for="eventTypeInput" class="col-sm-2 col-form-label">Event Type</label>
       <div class="col-sm-10">
-        <input type="text" id="userInput2" class="form-control" v-model="newEvent.eventType">
+        <select v-model="newEvent.title" class="form-select" id="eventTypeInput">
+          <option disabled value="">Select event type</option>
+          <option v-for="eventType in eventTypes" :value="eventType">{{ eventType }}</option>
+        </select>
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="userInput3" class="col-sm-2 col-form-label">Description</label>
+      <label for="descriptionInput" class="col-sm-2 col-form-label">Description</label>
       <div class="col-sm-10">
-        <input type="text" id="userInput3" class="form-control" v-model="newEvent.description">
+        <input type="text" id="descriptionInput" class="form-control" v-model="newEvent.description">
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="userInput3" class="col-sm-2 col-form-label">Start Date</label>
+      <label for="startDateInput" class="col-sm-2 col-form-label">Start Date</label>
       <div class="col-sm-10">
-        <input type="text" id="userInput3" class="form-control" v-model="newEvent.startDate">
+        <input type="date" id="startDateInput" class="form-control" v-model="newEvent.start">
       </div>
     </div>
     <div class="mb-3 row">
-      <label for="userInput3" class="col-sm-2 col-form-label">End Date</label>
+      <label for="endDateInput" class="col-sm-2 col-form-label">End Date</label>
       <div class="col-sm-10">
-        <input type="text" id="userInput3" class="form-control" v-model="newEvent.endDate">
+        <input type="date" id="endDateInput" class="form-control" v-model="newEvent.end">
       </div>
     </div>
     <div class="col-auto">
@@ -54,10 +60,10 @@
         <tr v-for="event in events">
           <td>{{ event.id }}</td>
           <td>{{ event.user.name }}</td>
-          <td>{{ event.eventType }}</td>
+          <td>{{ event.title }}</td>
           <td>{{ event.description }}</td>
-          <td>{{ event.startDate }}</td>
-          <td>{{ event.endDate }}</td>
+          <td>{{ event.start }}</td>
+          <td>{{ event.end }}</td>
           <td><button @click.prevent="removeEvents(event.id)" type="button" class="btn btn-danger mb-3">Remove</button>
           </td>
         </tr>
@@ -74,12 +80,14 @@ export default {
       helloMsg: '',
       status: '',
       events: [],
+      owners: [],
+      eventTypes: [],
       newEvent: {
         user: null,
-        eventType: null,
+        title: null,
         description: null,
-        startDate: null,
-        endDate: null
+        start: null,
+        end: null
       }
     }
   },
@@ -99,14 +107,14 @@ export default {
             this.status = "Error: " + response.status;
           }
         })
-        .then(() => this.getevents());
+        .then(() => this.getEvents());
+
     },
     getEvents() {
       fetch("/api/events/get")
         .then((response) => response.text())
         .then((data) => {
           this.events = JSON.parse(data);
-          this.helloMsg = data
         });
     },
     getHello() {
@@ -124,12 +132,29 @@ export default {
           }
         }
         )
-        .then(() => this.getevents());
+        .then(() => this.getEvents());
+    },
+    getOwners() {
+      fetch("/api/owners/get")
+        .then((response) => response.text())
+        .then((data) => {
+          this.owners = JSON.parse(data);
+        });
+    },
+    getEventTypes() {
+      fetch("/api/event-types/get")
+        .then((response) => response.text())
+        .then((data) => {
+          this.eventTypes = JSON.parse(data);
+          // this.helloMsg = this.eventTypes;
+        });
     }
   },
   mounted() {
     this.getHello();
     this.getEvents();
+    this.getOwners();
+    this.getEventTypes();
   }
 }
 </script>

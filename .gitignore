@@ -1,4 +1,6 @@
 .idea
 target/
 src/frontend/node_modules
+src/frontend/node
+src/frontend/dist
 src/frontend/.vscode

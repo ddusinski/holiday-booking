@@ -34,6 +34,8 @@ public class EventController {
 
     @DeleteMapping("/delete/{id}")
     public void deleteEvent(@PathVariable Long id) {
+        Event eventToRemove = eventRepository.findById(id).orElseThrow();
+        eventToRemove.setUser(null);
         eventRepository.deleteById(id);
     }
 }
